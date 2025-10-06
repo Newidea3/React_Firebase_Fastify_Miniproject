@@ -1,12 +1,30 @@
+
 import LogoutButton from "@/components/logoutButton";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { io } from 'socket.io-client';
+
+const url = import.meta.env.VITE_BACKEND_URL;
+
+const socket = io(url, {
+    transports: ['websocket'],
+});
 
 function HomePage() {
+
     const [count, setCount] = useState(0);
+    useEffect(() => {
+        socket.on('countUpdated', (data) => {
+            console.log('New Count', data.newCount);
+            setCount(data.newCount);
+        });
+        return () => {
+            socket.off('countUpdated');
+        }
+    }, []);
     const handleClick = () => {
-        setCount(count + 1);
-    }
+        socket.emit('click', { userId: 'user123', count });
+    };
     return (
         <div className="grid grid-cols-1 max-w-[50%] gap-5 w-full p-2 h-full">
             Hello ""User"""
