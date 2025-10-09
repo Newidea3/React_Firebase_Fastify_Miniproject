@@ -150,9 +150,6 @@ function Welcome() {
                                             <FaGoogle />  Login with Google
                                         </Button>
                                     </div>
-                                    {/* <DialogClose asChild>
-                                        <Button variant="outline">Close</Button>
-                                    </DialogClose> */}
 
                                 </DialogFooter>
                             </form>
