@@ -13,7 +13,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { FaGoogle } from "react-icons/fa6";
-import registerUser from "@/services/registerUser";
+import registerUserService from "@/services/registerUserService";
 
 
 
@@ -38,7 +38,7 @@ function LoginAlert() {
 function Welcome() {
     const [loginError, setLoginError] = useState(false)
     const navigate = useNavigate();
-    const { signInWithGoogle } = registerUser;
+    const { signInWithGoogle } = registerUserService;
     const form = useForm<FormData>({
         resolver: zodResolver(loginFormSchema),
         defaultValues: {

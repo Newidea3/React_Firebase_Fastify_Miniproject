@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase/config";
 
@@ -18,7 +18,8 @@ async function registerUser(email:string, password:string, name:string) {
         createdAt: new Date()
     });
     }
-    
+    await updateProfile(user, { displayName: name });
+    await user.reload();
 
     return user;
 }
