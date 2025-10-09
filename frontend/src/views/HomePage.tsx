@@ -1,5 +1,6 @@
 
-import LogoutButton from "@/components/logoutButton";
+
+import LogoutButton from "@/components/LogoutButton";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { io } from 'socket.io-client';

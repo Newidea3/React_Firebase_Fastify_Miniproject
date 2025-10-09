@@ -1,11 +1,11 @@
 
 import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
-import Welcome from "@/pages/Welcome";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import AuthLayout from "./AuthLayout";
 import AuthProvider from "@/hooks/useAuth";
 import HomePage from "@/views/HomePage";
+import Welcome from "@/pages/Welcome";
 
 function RouteIndex() {
     const routesConfig = createBrowserRouter([

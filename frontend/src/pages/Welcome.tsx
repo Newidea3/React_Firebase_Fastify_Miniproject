@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogDescription, DialogFooter, DialogHeader } from "@/components/ui/dialog";
+import { DialogDescription, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router";
@@ -8,10 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/hooks/useAuth";
-import type { UserInterface } from "@/interface/UserInterface";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { FaGoogle } from "react-icons/fa6";
+import registerUser from "@/services/registerUser";
+
+
 
 const loginFormSchema = z.object({
     email: z.email().min(1, "Email is required"),
@@ -34,6 +38,7 @@ function LoginAlert() {
 function Welcome() {
     const [loginError, setLoginError] = useState(false)
     const navigate = useNavigate();
+    const { signInWithGoogle } = registerUser;
     const form = useForm<FormData>({
         resolver: zodResolver(loginFormSchema),
         defaultValues: {
@@ -43,28 +48,34 @@ function Welcome() {
     })
     const { login } = useAuth();
     const onSubmit = async ({ email, password }: FormData) => {
-        if (email === "jhon@doe.com" && password === "jhon1234") {
-            const user: UserInterface = {
-                id: 3,
-                name: "Byron",
-                email: "Byron@gmail.com",
-                plaidToken: "plaid-box-239847329dj2oijhoiedjsd8923ud",
-            }
+        try {
+            await login(email, password);
             setLoginError(false);
-            await login(user);
             navigate("/home");
         }
-        else {
+        catch (error) {
             setLoginError(true);
+            console.error("Error during login:", error);
         }
+    };
+    const handleSubmitGoogle = async () => {
+        try {
+            const user = await signInWithGoogle();
+            console.log("Google user:", user);
+            if (user) setLoginError(false);
+            navigate("/home");
+        } catch (error) {
+            console.error("Error during Google sign-in:", error);
+        }
+
     };
     return (
         <div className="flex flex-col items-center justify-center h-screen ">
             <h1 className="text-4xl font-bold text-center">
-                Welcome to the Personal Finance App
+                Welcome to the Click register app
             </h1>
             <p className="mt-2 mb-4 text-lg text-center">
-                Manage your finances, track expenses, and achieve your financial goals.
+                See how many clicks do often a day.
             </p>
             <div className="flex flex-row gap-4 justify-center items-center">
                 <Dialog>
@@ -83,7 +94,6 @@ function Welcome() {
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="grid gap-4">
-                                    {/* 4. Uso correcto de FormField para el email */}
                                     <FormField
                                         control={form.control}
                                         name="email"
@@ -101,7 +111,6 @@ function Welcome() {
                                             </FormItem>
                                         )}
                                     />
-                                    {/* 5. Uso correcto de FormField para la contraseña */}
                                     <FormField
                                         control={form.control}
                                         name="password"
@@ -127,16 +136,24 @@ function Welcome() {
                                         Don't have an account? <Link className="text-indigo-500" to="/register">Sign Up</Link>
                                     </DialogDescription>
                                 </div>
-                                <DialogFooter>
-                                    <DialogClose asChild>
-                                        <Button variant="outline">Close</Button>
-                                    </DialogClose>
-                                    <Button type="submit" >
-                                        Log In
-                                        {/* <Link to="/dashboard">
+                                <DialogFooter className="mt-4">
+                                    <div className="grid gap-2 w-full">
+                                        <Button type="submit" >
                                             Log In
-                                        </Link> */}
-                                    </Button>
+                                        </Button>
+                                        <span className="text-center text-gray-800 grid grid-cols-3 items-center">
+                                            <Separator orientation="horizontal" />
+                                            or
+                                            <Separator orientation="horizontal" />
+                                        </span>
+                                        <Button onClick={handleSubmitGoogle} type="button" variant="secondary">
+                                            <FaGoogle />  Login with Google
+                                        </Button>
+                                    </div>
+                                    {/* <DialogClose asChild>
+                                        <Button variant="outline">Close</Button>
+                                    </DialogClose> */}
+
                                 </DialogFooter>
                             </form>
                         </Form>
@@ -144,7 +161,7 @@ function Welcome() {
                 </Dialog>
                 <Button variant="outline">
                     <Link to="/register">
-                        Sing Up
+                        Sign Up
                     </Link>
                 </Button>
             </div>

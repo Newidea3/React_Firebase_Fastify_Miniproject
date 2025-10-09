@@ -1,8 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { useNavigate } from "react-router";
+import z from "zod";
 function Register() {
+    const registerFormSchema = z.object({
+        name: z.string().min(1, "Name is required"),
+        email: z.email().min(1, "Email is required"),
+        password: z.string().min(8, "Password must be at least 8 characters")
+    });
+    type FormData = z.infer<typeof registerFormSchema>;
+    const [loginError, setLoginError] = useState(false)
+    const navigate = useNavigate();
+    const form = useForm<FormData>({
+        resolver: zodResolver(registerFormSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: ""
+        }
+    })
     return (
         <div className="grid grid-rows-2 w-full gap-0 register_bg_section">
             <section className="flex items-center justify-center min-[1200px]:bg-blue-100 min-[1200px]:w-[50%] pt-10 pb-10">
