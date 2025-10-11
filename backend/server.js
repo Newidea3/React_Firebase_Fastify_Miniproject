@@ -2,7 +2,7 @@ require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
 const fastifyIO = require('fastify-socket.io');
 const Redis = require('ioredis');
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 const redisCache = new Redis({
   host: process.env.REDIS_HOST,
