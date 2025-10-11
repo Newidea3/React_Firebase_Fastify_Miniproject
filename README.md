@@ -72,19 +72,21 @@ The goal is to build a small but realistic app that tracks **user click counts**
 ### 5.Setup Instructions
 
 - Clone the repository
-`git clone https://github.com/your-username/mini-firebase-fastify-app.git
+```bash
+git clone https://github.com/your-username/mini-firebase-fastify-app.git
 cd mini-firebase-fastify-app
-`
+```
 - Install Dependencies
-`cd frontend
+```bash
+cd frontend
 npm install
 
 cd backend
 npm install
+```
 
-`
 - Environment Variables
-`
+```bash
 Frontend:
 VITE_FIREBASE_API_KEY
 VITE_FIREBASE_AUTH_DOMAIN
@@ -101,12 +103,12 @@ FIREBASE_PRIVATE_KEY_ID
 FIREBASE_PRIVATE_KEY
 FIREBASE_CLIENT_EMAIL
 FIREBASE_CLIENT_ID
-.FIREBASE_AUTH_URI
+FIREBASE_AUTH_URI
 FIREBASE_TOKEN_URI
 FIREBASE_AUTH_PROVIDER_X509_CERT_URL
 FIREBASE_CLIENT_X509_CERT_URL
 FIREBASE_UNIVERSE_DOMAIN
-`
+```
 #  Cloud Setup and Configuration
 
 ##  Prerequisites (For Deployment)
@@ -158,13 +160,13 @@ The following environment variables are required for the **Backend API deploymen
      --vpc-connector [CONNECTOR-NAME] \
      --egress all
      ```
-⚠️ **Important Note**
+ **Important Note**
 
 The flags `--vpc-connector` and `--egress all` are **critical** to enable private network communication to the **GCE VM** and **Redis**.
 
 ---
 
-## 🌐 3. Frontend (Firebase Hosting)
+##  3. Frontend (Firebase Hosting)
 
 ### **Build**
 Generate static assets for the React application.
@@ -178,7 +180,7 @@ Use the Firebase CLI:
 ```bash
 firebase deploy 
 ```
-# 🔒 Security Considerations
+#  Security Considerations
 
 ## A. Authentication & Authorization
 
@@ -197,23 +199,10 @@ firebase deploy
 | **Redis (Memorystore)** | Hosted on a private VPC; not publicly accessible. Only Cloud Run instances can access it via the VPC Connector. |
 | **GPU Service (GCE)** | VM has **no external IP**. Access is restricted to:<br>1️⃣ Internal IP only.<br>2️⃣ Firewall rules allowing traffic only from the VPC Connector’s IP range.<br>*(Optional: Require a shared secret token validated in the FastAPI service.)* |
 
----
-
-## 📈 Next Steps / TODO
-
-- [ ] Implement Redis pub/sub for multi-instance sync  
-- [ ] Add GPU microservice stub (FastAPI)  
-- [ ] Deploy frontend to Firebase Hosting  
-- [ ] Deploy backend to Google Cloud Run  
-- [ ] Add profile image upload (Firebase Storage)  
-- [ ] Integrate click count visualization (charts)  
-
----
-
-## 🧑‍💻 Author
+## Author
 
 **Byron**  
-*Software Engineer | Full-Stack Developer*  
+*Software Engineer | Full-Stack Engineer*  
 Focused on building scalable, cloud-based solutions using **React**, **Node.js**, and **Firebase**.
 
 ---
