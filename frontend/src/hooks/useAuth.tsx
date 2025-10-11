@@ -12,10 +12,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            console.log("Auth state changed, user:", firebaseUser);
             const user: UserInterface = {
                 name: firebaseUser?.displayName || "User", id: firebaseUser?.uid || ""
-            };;
+            };
             setUser(user);
             setLoading(false);
         });
